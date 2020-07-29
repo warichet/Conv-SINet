@@ -1,2 +1,2 @@
 # Conv-SINet
-Fully-convolutional time domain speakers identification solution
+Fully-convolutional speakers identification solution
