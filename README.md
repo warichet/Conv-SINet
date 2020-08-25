@@ -40,7 +40,11 @@ We continue to compare time vs STFT approach.
 "xxx_1_ref_in_pool.ipynb" is for identify speaker with one reference in the pool.
 
 Localization:
-
+This part is under process.
+The goal is to determine the delay between the mics.
+We try different output vecor size (16, 32, 64 or 128).
+"LocateEncoder.py" contain the specific encoder class in charge of localization.
+That is fully time encoder responsibles for the concordance of points of interest between mics sample.
 
 
 
