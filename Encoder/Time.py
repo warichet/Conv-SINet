@@ -71,7 +71,7 @@ class Time(nn.Module):
         
         # Distance between 2 vectors
         self.dist = nn.PairwiseDistance()
-        self.loss = TripletLoss(0.55, distance=self.dist)
+        self.loss = TripletLoss(0.55, pairwise=True)
             
 
     def getvector(self, x):
