@@ -17,14 +17,16 @@ class ReturnType(Enum):
 
 class IdentificationDataset(Dataset):
     
-    def __init__(self, path, nb, train, encode=True, transform=None, full_sample=False, lenght=1, return_type=ReturnType.STANDARD):
-        if encode == True:
+    def __init__(self, path, nb, train, encode=True, transform=None, full_sample=False, lenght=1, return_type=ReturnType.STANDARD, cross_id=None):
+        if cross_id != None:
+            phases = [1, 2, 3]
+            file = 'iden_split_cross_' + str(cross_id) + '.txt'
+        elif encode == True:
+            phases = [1, 2, 3]
             if train:
                 file = 'iden_split_' + str(nb) + '.txt'
-                phases = [1, 2, 3]
             else:
                 file = 'iden_split_test_' + str(nb) + '.txt'
-                phases = [1, 2, 3]
         else:
             file = 'iden_split_test_' + str(nb) + '.txt'
             if train:
@@ -43,7 +45,7 @@ class IdentificationDataset(Dataset):
         self.path = path
         self.full_sample = full_sample
         self.lenght = lenght # seconds
-        print("sample lenght ", self.lenght)
+        print("sample lenght ", self.lenght, "seconds")
         self.transform = transform
         self.nb = nb
         # number of file by idx (that a mean)
