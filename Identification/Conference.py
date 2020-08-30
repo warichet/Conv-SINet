@@ -72,6 +72,14 @@ class Conference(nn.Module):
             place_obj = Place(label, maxsize=maxsize)
             self.places[label] = place_obj
 
+
+    def initplaces(self, maxsize=4):
+        # For each speaker encode samples into vectors and store it 
+        self.places.clear()
+        for label in self.speakers:
+            place_obj = Place(label, maxsize=maxsize)
+            self.places[label] = place_obj
+
     
     def forward(self, sample, gold_label=None, place_id=None):
         sample = sample.to(self.device)
@@ -87,7 +95,7 @@ class Conference(nn.Module):
         # ToDo select the right place using sample and not gold_label
         if place_id:
             place = self.getplace(sample, place_id)
-
+        
         for label in self.speakers:
             speaker = self.speakers[label]
             mean, topk, minimum = speaker(vector, gold_label)
@@ -117,16 +125,24 @@ class Conference(nn.Module):
 
 
     # Store speaker list into file
-    def store_speakers(self, nb_speakers , size=3):
-        speakers_path = self.speakers_path + str(nb_speakers) + '_' + str(size) + '.pt'
+    def store(self, nb_speakers , size=3, cross_id=None):
+        if cross_id:
+            speakers_path = self.speakers_path + str(nb_speakers) + '_' + str(size) + '_' + str(cross_id) + '.pt'
+        else:
+            speakers_path = self.speakers_path + str(nb_speakers) + '_' + str(size) + '.pt'
+        print("Store network", speakers_path)
         th.save(self.speakers, speakers_path)
 
 
     # Load speaker list from file
-    def load_speakers(self, nb_speakers, size=3):
-        speakers_path = self.speakers_path + str(nb_speakers) + '_' + str(size) + '.pt'
+    def load(self, nb_speakers, size=3, cross_id=None):
+        if cross_id:
+            speakers_path = self.speakers_path + str(nb_speakers) + '_' + str(size) + '_' + str(cross_id) + '.pt'
+        else:
+            speakers_path = self.speakers_path + str(nb_speakers) + '_' + str(size) + '.pt'
+        print("Load ", speakers_path)
         self.speakers = th.load(speakers_path)
-        
+
 
     # In the absence of localization simulate the places
     def getplace(self, sample, label):
